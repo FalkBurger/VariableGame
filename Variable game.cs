@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 namespace Variables
 {
@@ -16,17 +17,22 @@ namespace Variables
 		
 		static void MainMenu()
 		{
+			Console.Clear();
 			
+			Console.WriteLine("Variable Game Menu\n");
+			
+			Console.WriteLine("1) Save Profile");
 		}
 		
 		static void StartScreen()
 		{
+			Console.Clear();
 			bool loopOne = false;
 			while (!loopOne)
 			{
 				Console.WriteLine("Input a number and press enter/return\n");
-				Console.WriteLine("1. Log in");
-				Console.WriteLine("2. Create Account");
+				Console.WriteLine("1) Log in");
+				Console.WriteLine("2) Create Account");
 				Console.Write(">> ");
 				
 				try
@@ -68,7 +74,37 @@ namespace Variables
 			
 		static void LogIn()
 		{
-				
+			string readUsername, readPassword;
+			string[] fileReader = new string[64];
+			int counter = 0;
+			
+			Console.Write("Enter username: ");
+			readUsername = Console.ReadLine();
+			
+			if (!File.Exists($"{readUsername}.txt"))
+			{
+				Console.WriteLine("Invalid username");
+				Console.ReadLine();
+				StartScreen();
+			}
+			
+			Console.Write("Enter password: ");
+			readPassword = Console.ReadLine();
+			
+			foreach (string line in File.ReadLines($"{readUsername}.txt"))
+			{
+				fileReader[counter] = line;
+				counter++;
+			}
+			
+			password = fileReader[0];
+			
+			if (readPassword != password)
+			{
+				Console.WriteLine("Invalid password");
+				Console.ReadLine();
+				StartScreen();
+			}
 		}
 	}
 }
